@@ -24,8 +24,8 @@
 
 1. 打开Chrome浏览器
 2. 访问www.pixiv.net, 并登录
-3. 按下F12调出调试界面, 在界面的右上角找到并选中Application
-4. 在左侧选中Cookies-https://www.pixiv.net你将会看到一个表格, 这个就是cookies
+3. 按下F12调出调试界面, 在界面的右上角找到并选中Application, 如果没有看见请点击旁边的">>"
+4. 在左侧选中Cookies-https://www.pixiv.net 你将会看到一个表格, 这个就是cookies
 5. 复制PHPSESSID的值备用
 6. 运行一次程序, 将自动生成配置文件, 打开它
 7. 在代理设置 (proxy) 中, 设置好主机 (host) 和端口 (port) 
