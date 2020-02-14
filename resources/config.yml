@@ -1,0 +1,14 @@
+#代理设置, 如果无需使用代理请用两个单引号''表示留空
+proxy:
+  host: '127.0.0.1'
+  port: '10809'
+
+#找到www.pixiv.net网站cookie中'PHPSESSID'键的值填入此项
+cookie: 'YOUR-COOKIE-HERE'
+
+#爬虫程序运行时, 将使用此页面作为开始页面
+#爬虫程序会在运行时，不断写入此项，以便于下次运行时接着爬取
+startpage: 'https://www.pixiv.net/ranking.php?mode=male'
+
+#图片文件的储存路径, %HERE%会被程序自动替换成jar文件所在的文件夹
+imagesavepath: '%HERE%/Crawled'
