@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.ConnectException;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,6 +61,8 @@ public class Crawler {
 					System.out.println("请求图片列表页面被关闭, 将重试.");
 				} catch (ConnectException e) {// cookie错误将会超时
 					System.out.println("连接超时, 请检查cookie是否错误或过期.");
+				} catch (SocketException e) {
+					System.out.println("意外结束, 将重试.");
 				} catch (HttpStatusException e) {// cookie不正确或没有将返回错误码
 					System.out.println("HTTP状态错误" + e.getStatusCode() + " 请填写正确的cookie.");
 				}
@@ -68,7 +71,13 @@ public class Crawler {
 			Elements pages = doc.select("#wrapper").select("div.layout-body").select("div")
 					.select("div.ui-fixed-container").select("div").select("nav:nth-child(2)").select("ul")
 					.select("li.after").select("a");
-			Element nextpage = pages.get(0);
+			Element nextpage = null;
+			try {
+				nextpage = pages.get(0);
+			} catch (IndexOutOfBoundsException e) {
+				System.out.println("网页格式错误，请检查cookie是否已经过期 (或者该榜单已被爬取完毕) .");
+				System.exit(1);
+			}
 			nextpageurl = nextpage.absUrl("href");
 			Elements images = doc.select("#wrapper").select("div.layout-body").select("div")
 					.select("div.ranking-items-container").select("div.ranking-items.adjust")
@@ -113,6 +122,8 @@ public class Crawler {
 					System.out.println("请求图片页面被关闭, 将重试.");
 				} catch (ConnectException e) {// cookie错误将会超时, 但是其实可以不带cookie
 					System.out.println("连接超时, 请检查cookie是否错误或过期.");
+				} catch (SocketException e) {
+					System.out.println("意外结束, 将重试.");
 				}
 			}
 			Document doc = res.parse();
@@ -160,6 +171,8 @@ public class Crawler {
 						System.out.println("请求图片被关闭, 将重试.");
 					} catch (ConnectException e) {// cookie错误将会超时, 但是其实可以不带cookie
 						System.out.println("连接超时, 请检查cookie是否错误或过期.");
+					} catch (SocketException e) {
+						System.out.println("意外结束, 将重试.");
 					} catch (HttpStatusException e) {// 防止有画师上传的同一个帖子内文件格式不同
 						if (imgurl.contains(".jpg")) {
 							imgurl = imgurl.replaceAll(".jpg", ".png");
